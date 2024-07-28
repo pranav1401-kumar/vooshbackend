@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/db');
@@ -5,17 +6,10 @@ const passport = require('./config/passport');
 const helmet = require('helmet');
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
-const session = require('cookie-session');
+const session = require('express-session');
 
 const app = express();
-console.log('Server is starting...');
-
-const corsOptions = {
-  origin: 'https://vooshfrontend.vercel.app', // specify your frontend URL
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // allow credentials
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 // Connect Database
