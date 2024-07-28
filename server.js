@@ -3,7 +3,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const passport = require('./config/passport');
 const helmet = require('helmet');
-const logger = require('./utils/logger');
+const logger = require('./utils/logger'); // Ensure this does not write to the file system
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
 const session = require('express-session');
@@ -42,7 +42,7 @@ connectDB();
 
 // Middleware
 app.use(helmet());
-app.use(logger);
+// app.use(logger);
 app.use(express.json({ extended: false }));
 
 // Session Middleware
@@ -51,7 +51,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-  cookie: { secure: false } // set to true in production when using HTTPS
+  cookie: { secure: process.env.NODE_ENV === 'production' } // set to true in production when using HTTPS
 }));
 
 app.use(passport.initialize());
