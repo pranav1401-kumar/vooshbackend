@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
-const session = require('express-session');
+const session = require('cookie-session');
 
 const app = express();
 console.log('Server is starting...');
