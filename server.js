@@ -5,35 +5,17 @@ const passport = require('./config/passport');
 const helmet = require('helmet');
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const session = require('cookie-session');
 
 const app = express();
 console.log('Server is starting...');
 
-// List of allowed origins
-const allowedOrigins = [
-  'https://vooshfrontend.vercel.app',
-  'http://localhost:3000'
-];
-
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Check if the origin is in the list of allowed origins
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: 'https://vooshfrontend.vercel.app', // specify your frontend URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 200
+  credentials: true, // allow credentials
 };
-
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // enable pre-flight requests for all routes
-
 app.use(express.json());
 
 // Connect Database
@@ -48,8 +30,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
-  cookie: { secure: process.env.NODE_ENV === 'production' } // set to true in production when using HTTPS
+  cookie: { secure: false } // set to true in production when using HTTPS
 }));
 
 app.use(passport.initialize());
