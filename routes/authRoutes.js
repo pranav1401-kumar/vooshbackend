@@ -51,7 +51,7 @@ router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     // Successful authentication, redirect to the dashboard
-    res.redirect('http://localhost:3000/dashboard');
+    res.redirect('https://vooshfrontend.vercel.app/dashboard');
   }
 );
 
