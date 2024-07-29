@@ -48,7 +48,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 
 // Google auth callback
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: 'https://vooshfrontend.vercel.app/dashboard' }),
   (req, res) => {
     // Successful authentication, redirect to the dashboard
     res.redirect('https://vooshfrontend.vercel.app/dashboard');
